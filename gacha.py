@@ -62,5 +62,3 @@ if __name__ == "__main__":
  #   text = "@user " + "\n"
  #   for item in res:
  #       text += item + "\n"
-
-  #  print text
