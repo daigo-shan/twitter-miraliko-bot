@@ -12,14 +12,11 @@ api = tweepy.API(twiauth.oauth())
 
 class StreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        print status.text
         status_id = status.id
         screen_name = status.author.screen_name.encode("UTF-8")
         reply_text="@" + screen_name
         
         if status.in_reply_to_screen_name == 'MiraLiko_bot':
-    #        print("[get reply]")
-            
             if u'今日の天気' in status.text:
                 weather = wb.weather_text(0)
                 reply_text += weather
