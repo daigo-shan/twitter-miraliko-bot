@@ -3,3 +3,4 @@ oauthlib==1.0.3
 requests==2.9.1
 requests-oauthlib==0.7.0
 tweepy==3.5.0
+numpy==1.12.0
