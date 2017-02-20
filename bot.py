@@ -18,7 +18,7 @@ class StreamListener(tweepy.StreamListener):
         reply_text="@" + screen_name
         
         if status.in_reply_to_screen_name == 'MiraLiko_bot':
-            print("[get reply]")
+    #        print("[get reply]")
             
             if u'今日の天気' in status.text:
                 weather = wb.weather_text(0)
@@ -78,7 +78,7 @@ class StreamListener(tweepy.StreamListener):
         
 if __name__ == '__main__':
     try:
-        print(u"[動作開始]")
+     #   print(u"[動作開始]")
         api.update_status('TL取得開始 ' + time.ctime())
         stream = tweepy.Stream(auth=api.auth, listener=StreamListener())
         stream.userstream()
