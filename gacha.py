@@ -55,10 +55,3 @@ def pickup_sr():
 def pickup_r():
     r = ["手繋ぎ","交換日記","頬キス","抱きつき"]
     return np.random.choice(r)
-
-
-if __name__ == "__main__":
- #   res = turn_10rare()
- #   text = "@user " + "\n"
- #   for item in res:
- #       text += item + "\n"
