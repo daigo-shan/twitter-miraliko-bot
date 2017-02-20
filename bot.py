@@ -37,7 +37,7 @@ class StreamListener(tweepy.StreamListener):
 
             rare_pic = gc.get_miraliko()
 
-            reply_text += " [" + rare_pic[0] +"]" + rare_pic[1]
+            reply_text += " [" + rare_pic[0] +"] " + rare_pic[1]
             api.update_status(status=reply_text,in_reply_to_status_id=status_id)
 
         if(u'みらリコ10連ガチャ' in status.text):

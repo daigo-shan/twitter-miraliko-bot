@@ -58,12 +58,6 @@ def pickup_r():
 
 
 if __name__ == "__main__":
-
-    list2 = get_miraliko()
-
-    print list2[0]
-    print list2[1]
-
  #   res = turn_10rare()
  #   text = "@user " + "\n"
  #   for item in res:
