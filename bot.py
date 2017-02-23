@@ -76,7 +76,7 @@ class StreamListener(tweepy.StreamListener):
 if __name__ == '__main__':
     try:
      #   print(u"[動作開始]")
-        api.update_status('TL取得開始 ' + time.ctime())
+     #   api.update_status('TL取得開始 ' + time.ctime())
         stream = tweepy.Stream(auth=api.auth, listener=StreamListener())
         stream.userstream()
 
