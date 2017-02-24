@@ -33,9 +33,9 @@ class StreamListener(tweepy.StreamListener):
                 api.update_status(status=reply_text,in_reply_to_status_id=status_id)
                 
             elif (u'みらりこ' in status.text):
-            reply_text += " み　ら　リ　コだっつってんだろ(マジギレ)(オタク特有の早口)(ﾍﾟﾁｬｸﾁｬ)(まほプリのラバスト)(まほプリの缶バッジ)(キュアップ・ラパパ)"
+                reply_text += " み　ら　リ　コだっつってんだろ(マジギレ)(オタク特有の早口)(ﾍﾟﾁｬｸﾁｬ)(まほプリのラバスト)(まほプリの缶バッジ)(キュアップ・ラパパ)"
             
-            api.update_status(status=reply_text,in_reply_to_status_id=status_id)
+                api.update_status(status=reply_text,in_reply_to_status_id=status_id)
                 
             
              
