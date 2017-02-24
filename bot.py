@@ -15,31 +15,16 @@ class StreamListener(tweepy.StreamListener):
         status_id = status.id
         screen_name = status.author.screen_name.encode("UTF-8")
         reply_text="@" + screen_name
-        
+
+        #リプライを受け取った場合
         if status.in_reply_to_screen_name == 'MiraLiko_bot':
-            if (u'今日の天気' in status.text):
-                weather = wb.weather_text(0)
-                reply_text += weather
-                api.update_status(status=reply_text,in_reply_to_status_id=status_id)
 
-            elif (u'明日の天気' in status.text):
-                weather = wb.weather_text(1)
-                reply_text += weather
-                api.update_status(status=reply_text,in_reply_to_status_id=status_id)
-
-            elif (u'明後日の天気' in status.text):
-                weather = wb.weather_text(2)
-                reply_text += weather
-                api.update_status(status=reply_text,in_reply_to_status_id=status_id)
-                
-            elif (u'みらりこ' in status.text):
-                reply_text += " み　ら　リ　コだっつってんだろ(マジギレ)(オタク特有の早口)(ﾍﾟﾁｬｸﾁｬ)(まほプリのラバスト)(まほプリの缶バッジ)(キュアップ・ラパパ)"
+            #天気を返す場合
+            get_weather(status.text, reply_text, status_id)
+            #怒る場合
+            angry(status.text, reply_text, status_id)
             
-                api.update_status(status=reply_text,in_reply_to_status_id=status_id)
-                
-            
-             
-        
+        #TL上に[みらリコガチャ]の文字列を見つけた場合
         if(u'みらリコガチャ' in status.text):
 
             rare_pic = gc.get_miraliko()
@@ -47,25 +32,7 @@ class StreamListener(tweepy.StreamListener):
             reply_text += " [" + rare_pic[0] +"] " + rare_pic[1]
             api.update_status(status=reply_text,in_reply_to_status_id=status_id)
 
-        if(u'みらリコ10連ガチャ' in status.text):
-
-            res10 = gc.turn_10rare()
-
-            reply_text += " \n"
-            for item in res10:
-                reply_text += item + "\n"
-
-            api.update_status(status=reply_text,in_reply_to_status_id=status_id)
-
-      #  if u'49話限定ガチャ' in status.text:
-       #     pic_num = random.randint(1,93)
-        #    filename = '/home/daigo-shan/Pictures/picmaho49/'
-         #   pic_name = 'maho49 (' + str(pic_num) + ').jpg'
-          #  path = filename + pic_name
-           # api.update_with_media(status = reply_text,filename = path, in_reply_to_status_id = status_id)
-
-           
-      
+       
     def on_timeout(self):
         print('Timeout...')
         return True
@@ -74,12 +41,38 @@ class StreamListener(tweepy.StreamListener):
         if status_code == 420:
             print str(status_code)
             return False
+
+#天気を返す関数
+def get_weather(tweet, reply, id):
+    if (u'今日の天気' in tweet):
+        weather = wb.weather_text(0)
+        reply += weather
+        api.update_status(status=reply,in_reply_to_status_id=id)
+    elif (u'明日の天気' in tweet):
+        weather = wb.weather_text(1)
+        reply += weather
+        api.update_status(status=reply,in_reply_to_status_id=id)
+    elif (u'明後日の天気' in tweet):
+        weather = wb.weather_text(2)
+        reply += weather
+        api.update_status(status=reply,in_reply_to_status_id=id)
+    else:
+        return True
+
+#怒る関数
+def angry(tweet, reply, id):
+    
+    if (u'みらりこ' in tweet):
+        reply += " み　ら　リ　コだっつってんだろ(マジギレ)(オタク特有の早口)(ﾍﾟﾁｬｸﾁｬ)(まほプリのラバスト)(まほプリの缶バッジ)(キュアップ・ラパパ)"
+        api.update_status(status=reply,in_reply_to_status_id=id)
+    else:
+        return 0
         
 if __name__ == '__main__':
     try:
         stream = tweepy.Stream(auth=api.auth, listener=StreamListener())
         stream.userstream()
 
-    except:
-        api.update_status('現在停止中 ' + time.ctime())
+    except KeyboardInterrupt:
+        print("終了します")
         exit()
