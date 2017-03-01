@@ -29,7 +29,7 @@ class StreamListener(tweepy.StreamListener):
 
             pic = gc.get_miraliko()
 
-            reply_text += " No." + str(pic[0]) + " " + pic[1]
+            reply_text += " No." + pic[0] + " " + pic[1]
             api.update_status(status=reply_text,in_reply_to_status_id=status_id)
 
        
