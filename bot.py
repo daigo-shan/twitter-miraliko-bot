@@ -27,9 +27,9 @@ class StreamListener(tweepy.StreamListener):
         #TL上に[みらリコガチャ]の文字列を見つけた場合
         if(u'みらリコガチャ' in status.text):
 
-            rare_pic = gc.get_miraliko()
+            pic = gc.get_miraliko()
 
-            reply_text += " [" + rare_pic[0] +"] " + rare_pic[1]
+            reply_text += " No." + str(pic[0]) + " " + pic[1]
             api.update_status(status=reply_text,in_reply_to_status_id=status_id)
 
        
