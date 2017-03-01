@@ -200,7 +200,7 @@ def get_miraliko():
     g_num = random.randint(0,num-1)
 
     url = list[g_num]
-    num_url = [g_num+1, url]
+    num_url = [str(g_num+1), url]
     return num_url
 
 def turn_10rare():
@@ -245,4 +245,4 @@ def pickup_r():
 if __name__ == '__main__':
 
     pic = get_miraliko()
-    print "No." + str(pic[0]) + " " + pic[1]
+    print "No." + pic[0] + " " + pic[1]
