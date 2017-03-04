@@ -65,6 +65,10 @@ def angry(tweet, reply, id):
     if (u'みらりこ' in tweet):
         reply += " み　ら　リ　コだっつってんだろ(マジギレ)(オタク特有の早口)(ﾍﾟﾁｬｸﾁｬ)(まほプリのラバスト)(まほプリの缶バッジ)(キュアップ・ラパパ)"
         api.update_status(status=reply,in_reply_to_status_id=id)
+
+    elif (u'朝比奈みらい' in tweet):
+        reply += "\n朝　日　奈　み　ら　い\nだ\nにどとまちがえるなくそが"
+        api.update_status(status=reply,in_reply_to_status_id=id)
     else:
         return 0
         
