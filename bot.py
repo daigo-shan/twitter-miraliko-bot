@@ -5,7 +5,11 @@ import twiauth
 import random
 import time
 import gacha as gc
-import weather_bot as wb
+import weathermap as wm
+
+NOW = 0
+TOMORROW = 1
+DAY_AFTER_TOMORROW = 2
 
 #認証とインスタンス生成
 api = tweepy.API(twiauth.oauth())
@@ -43,19 +47,20 @@ class StreamListener(tweepy.StreamListener):
             return False
 
 #天気を返す関数
+#tweet:自分宛のリプライ
+#reply:相手への返信用文字列(初期値には相手のID)
+#id:返信先ツイートのID
 def get_weather(tweet, reply, id):
-    if (u'今日の天気' in tweet):
-        weather = wb.weather_text(0)
-        reply += weather
+    if (u'今の天気' in tweet):
+        reply += wm.get_weather(NOW)
         api.update_status(status=reply,in_reply_to_status_id=id)
     elif (u'明日の天気' in tweet):
-        weather = wb.weather_text(1)
-        reply += weather
+        reply += wm.get_weather(TOMORROW)
         api.update_status(status=reply,in_reply_to_status_id=id)
     elif (u'明後日の天気' in tweet):
-        weather = wb.weather_text(2)
-        reply += weather
+        reply += wm.get_weather(DAY_AFTER_TOMORROW)
         api.update_status(status=reply,in_reply_to_status_id=id)
+    #上記以外のリプなら何もしない
     else:
         return True
 
