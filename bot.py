@@ -52,9 +52,8 @@ class StreamListener(tweepy.StreamListener):
 #id:返信先ツイートのID
 def get_weather(tweet, reply, id):
     if (u'今の天気' in tweet):
-        text = wm.get_weather(NOW)
-        print(text)
-        #api.update_status(status=reply,in_reply_to_status_id=id)
+        reply += wm.get_weather(NOW)
+        api.update_status(status=reply,in_reply_to_status_id=id)
     elif (u'明日の天気' in tweet):
         reply += wm.get_weather(TOMORROW)
         api.update_status(status=reply,in_reply_to_status_id=id)
