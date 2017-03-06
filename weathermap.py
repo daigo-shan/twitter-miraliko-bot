@@ -88,9 +88,11 @@ def get_weather(day):
         temp.insert(1,0.0)
 
         if(chara == MIRAI):
-            mirai_mode(day_list[day],tenki,humidity,temp)
+            text = mirai_mode(day_list[day],tenki,humidity,temp)
         elif(chara == LIKO):
-            liko_mode(day_list[day],tenki,humidity,temp)
+            text = liko_mode(day_list[day],tenki,humidity,temp)
+
+        return(text)
 
     else: #明日明後日の場合
         response = urllib2.urlopen(url2)
@@ -110,9 +112,11 @@ def get_weather(day):
         temp.insert(1,min)
     
         if(chara == MIRAI):
-            mirai_mode(day_list[day],tenki,humidity,temp)
+            text = mirai_mode(day_list[day],tenki,humidity,temp)
         elif(chara == LIKO):
-            liko_mode(day_list[day],tenki,humidity,temp)
+            text = liko_mode(day_list[day],tenki,humidity,temp)
+
+        return(text)
 
 #不快指数
 def DiscomfortIndex(T,H):
