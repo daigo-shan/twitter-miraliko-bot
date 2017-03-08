@@ -6,7 +6,6 @@ import pprint
 import math
 
 #キャラクター切り替え用変数
-chara = 0
 MIRAI = 0
 LIKO = 1
 #日にちリスト
@@ -27,7 +26,7 @@ url2 = "http://api.openweathermap.org/data/2.5/forecast/daily?q={a}&mode={b}&uni
 #晴れ,雪ならキャラをみらいに変更
 #曇り,雨ならキャラをリコに変更
 def text_convert(tenki):
-
+    global chara
     if(tenki == 'Clear'):
         tenki = '晴れ'
         chara = MIRAI
@@ -43,23 +42,23 @@ def text_convert(tenki):
     return tenki
 
 #晴れ,雪ならみらい口調で返す関数
-def mirai_mode(day,tenki,humidity,temp):
+def mirai_mode(sday,tenki,humidity,temp):
     #今の天気の場合
-    if(day == '今'):
-        text = "\n今の天気は{w}だよ！\n気温は{t}℃で、湿度は{h}%だね。".format(w=tenki,t=temp[0],h=humidity)
+    if(sday == '今'):
+        text = "\n{d}の天気は{w}だよ！\n気温は{t}℃で、湿度は{h}%だね。".format(d=sday,w=tenki,t=temp[0],h=humidity)
     #明日明後日の場合
     else:
-        text = "\n{d}の天気は{w}の予報だよ〜！\n最高気温は{max}℃、最低気温は{min}℃みたいだね。".format(d=day,w=tenki,max=temp[0],min=temp[1])
+        text = "\n{d}の天気は{w}の予報だよ〜！\n最高気温は{max}℃、最低気温は{min}℃みたいだね。".format(d=sday,w=tenki,max=temp[0],min=temp[1])
     return(text)
 
     
 #雨,曇りならリコ口調で返す関数
-def liko_mode(day,tenki,humidity,temp):
+def liko_mode(sday,tenki,humidity,temp):
     #今の天気の場合
-    if(day == '今'):
-        text = "\n今の天気は{w}ね。\n気温は{t}℃で、湿度は{h}%よ。".format(w=tenki,t=temp[0],h=humidity)
+    if(sday == '今'):
+        text = "\n{d}の天気は{w}ね。\n気温は{t}℃で、湿度は{h}%よ。".format(d=sday,w=tenki,t=temp[0],h=humidity)
     else:
-        text = "\n{d}の天気は{w}の予報よ。\n最高気温は{max}℃、最低気温は{min}℃みたいね。".format(d=day,w=tenki,max=temp[0],min=temp[1])
+        text = "\n{d}の天気は{w}の予報よ。\n最高気温は{max}℃、最低気温は{min}℃みたいね。".format(d=sday,w=tenki,max=temp[0],min=temp[1])
     return(text)
 
 
