@@ -1,3 +1,7 @@
 *.pyc
+<<<<<<< HEAD
 twiauth.py
 get_shorturl.py
+=======
+/twiauth.py
+>>>>>>> origin/master

@@ -23,6 +23,7 @@ def get_miraliko():
     #画像番号と短縮URLのセットをリストで返す
     return num_and_url
 
+
 '''
 def turn_10rare():
     result = []
@@ -61,9 +62,5 @@ def pickup_sr():
 def pickup_r():
     r = ["手繋ぎ","交換日記","頬キス","抱きつき"]
     return np.random.choice(r)
+
 '''
-
-if __name__ == '__main__':
-
-    pic = get_miraliko()
-    print "No." + pic[0] + " " + pic[1]

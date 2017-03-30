@@ -1,1 +1,1 @@
-# MyTwitterBot_miraliko
+# twitter-miraliko-bot

@@ -14,14 +14,14 @@ DAY_AFTER_TOMORROW = 2
 #認証とインスタンス生成
 api = tweepy.API(twiauth.oauth())
 
-#時刻用
-
 class myException(Exception): pass
 
 class StreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         
+class StreamListener(tweepy.StreamListener):
+    def on_status(self, status):
         status_id = status.id
         screen_name = status.author.screen_name.encode("UTF-8")
         reply_text="@" + screen_name
@@ -62,7 +62,6 @@ class StreamListener(tweepy.StreamListener):
         print "error code "
         print status_code
         raise myException
-        
 
 #天気を返す関数
 #tweet:自分宛のリプライ
