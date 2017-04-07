@@ -1,3 +1,2 @@
 # MiraLiko bot on Twitter
-written in Python
-using Tweepy, OpenWeatherMap API
+Written in Python. Using Tweepy and OpenWeatherMap API.

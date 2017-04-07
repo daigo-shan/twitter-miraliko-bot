@@ -7,9 +7,12 @@ import datetime
 import gacha as gc
 import weathermap as wm
 
-NOW = 0
-TOMORROW = 1
-DAY_AFTER_TOMORROW = 2
+NOW = 0  # 今日
+TOMORROW = 1 # 明日
+DAY_AFTER_TOMORROW = 2 # 明後日
+
+LAST_ONAIR = datetime.date(2017,1,29) # まほプリ公式最終回放送日
+
 
 #認証とインスタンス生成
 api = tweepy.API(twiauth.oauth())
@@ -18,8 +21,8 @@ class myException(Exception): pass
         
 class StreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        status_id = status.id
-        screen_name = status.author.screen_name.encode("UTF-8")
+        status_id = status.id  # 取得ツイートのID
+        screen_name = status.author.screen_name.encode("UTF-8") # 取得ツイートのツイート主
         reply_text="@" + screen_name
 
         # 時報アカウントのツイートを取得したら時刻をツイートする
@@ -32,19 +35,24 @@ class StreamListener(tweepy.StreamListener):
         # リプライを受け取った場合
         if status.in_reply_to_screen_name == 'MiraLiko_bot':
 
-            #天気を返す場合
+            # 天気を返す場合
             get_weather(status.text, reply_text, status_id)
-            #怒る場合
+            # 怒る場合
             angry(status.text, reply_text, status_id)
-            #機能を返す場合
+            # 機能を返す場合
             func_tweet(status.text, reply_text, status_id)
             
         # TL上に[みらリコガチャ]の文字列を見つけた場合
-        if(u'みらリコガチャ' in status.text):
+        if(u'みらリコガチャ' in status.text and screen_name != 'MiraLiko_bot'):
 
             pic = gc.get_miraliko()
 
             reply_text += " No." + pic[0] + " " + pic[1]
+            api.update_status(status=reply_text,in_reply_to_status_id=status_id)
+
+        # TL上に[今週のまほプリ]の文字列を見つけた場合
+        if(u'今週のまほプリ' in status.text and screen_name != 'MiraLiko_bot'):
+            reply_text += thisweek_onair()
             api.update_status(status=reply_text,in_reply_to_status_id=status_id)
 
         return True
@@ -93,11 +101,34 @@ def angry(tweet, reply, id):
         return True
 
 
+def thisweek_onair():
+    # 最終回放送日と現在の日付から何週経過したのか計算
+    # 現在話数と現在曜日の特定
+    today = datetime.date.today()
+    sub = today - LAST_ONAIR
+    onair_num = sub.days / 7 + 50
+    # 曜日は日付の差分を7で割った余りを使用(日～土:0～6)
+    youbi = sub.days % 7
+    # 0の時は"今日"
+    if(youbi == 0):
+        text = "\n今週の魔法つかいプリキュア！は第{n}話で、今日の8:30より放送開始です。" \
+            .format(n=onair_num)
+    else:
+        sub_youbi= 7 - youbi
+        next_onair = today + datetime.timedelta(days=sub_youbi)
+        text = "\n今週の魔法つかいプリキュア！は第{n}話でした。次回の放送は{d} 8:30からです。" \
+               .format(n=onair_num,d=next_onair)
+
+    return text
+        
+
+
 # 機能をお知らせする
 def func_tweet(tweet, reply, id):
     if (u'機能' in tweet):
-        reply += " 現在の機能\n" + \
-                 "・ガチャ(第3話まで)\n " + \
+        reply += " [現在の機能]\n" + \
+                 "・みらリコガチャ(第3話まで)\n " + \
+                 "・今週のまほプリ(←の単語に反応して現在話数をお知らせ)\n" + \
                  "・天気予報(「今/明日/明後日の天気」とリプライ)\n" + \
                  "・「みらりこ」「朝比奈みらい」とリプライするとキレる"
         
