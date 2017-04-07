@@ -15,10 +15,6 @@ DAY_AFTER_TOMORROW = 2
 api = tweepy.API(twiauth.oauth())
 
 class myException(Exception): pass
-
-class StreamListener(tweepy.StreamListener):
-
-    def on_status(self, status):
         
 class StreamListener(tweepy.StreamListener):
     def on_status(self, status):
@@ -26,14 +22,14 @@ class StreamListener(tweepy.StreamListener):
         screen_name = status.author.screen_name.encode("UTF-8")
         reply_text="@" + screen_name
 
-        #時報アカウントのツイートを取得したら時刻をツイートする
-        if screen_name == 'jiho_oshirase':
+        # 時報アカウントのツイートを取得したら時刻をツイートする
+        if screen_name == 'k0_0t':
             today = datetime.datetime.today()
             jikoku = today.strftime("%Y/%m/%d %H:%M")
             tweet_text = jikoku + " 稼働中\n現在の機能が知りたい時は「機能」とリプライしてください"
             api.update_status(status=tweet_text)
 
-        #リプライを受け取った場合
+        # リプライを受け取った場合
         if status.in_reply_to_screen_name == 'MiraLiko_bot':
 
             #天気を返す場合
@@ -43,7 +39,7 @@ class StreamListener(tweepy.StreamListener):
             #機能を返す場合
             func_tweet(status.text, reply_text, status_id)
             
-        #TL上に[みらリコガチャ]の文字列を見つけた場合
+        # TL上に[みらリコガチャ]の文字列を見つけた場合
         if(u'みらリコガチャ' in status.text):
 
             pic = gc.get_miraliko()
