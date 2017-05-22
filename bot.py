@@ -4,6 +4,8 @@ import tweepy
 import twiauth
 import random
 import datetime
+import os
+import commands
 import gacha as gc
 import weathermap as wm
 
@@ -27,9 +29,10 @@ class StreamListener(tweepy.StreamListener):
 
         # 時報アカウントのツイートを取得したら時刻をツイートする
         if screen_name == 'k0_0t':
+            temp = commands.getoutput("vcgencmd measure_temp").split('=')
             today = datetime.datetime.today()
             jikoku = today.strftime("%Y/%m/%d %H:%M")
-            tweet_text = jikoku + " 稼働中\n現在の機能が知りたい時は「機能」とリプライしてください"
+            tweet_text = jikoku + " 稼働中\n(CPU温度:" + temp[1] + ")" + "\n現在の機能が知りたい時は「機能」とリプライしてください"
             api.update_status(status=tweet_text)
 
         # リプライを受け取った場合
@@ -57,15 +60,26 @@ class StreamListener(tweepy.StreamListener):
 
         return True
 
+    def on_connect(self):
+        print("接続完了")
+        return
+
+    def on_disconnect(self, notice):
+        print("切断されました: " + str(notice.code))
+        return
        
     def on_timeout(self):
         print('Timeout...')
-        raise myException
+        return True
 
     def on_error(self, status_code):
-        print "error code "
-        print status_code
-        raise myException
+        print("エラー発生: " + str(status_code))
+        return True
+    
+    def on_exception(self, exception):
+        print("例外エラー: " + str(exception))
+        return
+        
 
 #天気を返す関数
 #tweet:自分宛のリプライ
@@ -137,15 +151,14 @@ def func_tweet(tweet, reply, id):
         return True
         
 if __name__ == '__main__':
-    listener = StreamListener()
     auth = api.auth
-    stream = tweepy.Stream(auth,listener)
-    stream.timeout = None
 
     while True:
         
         try:
-            print "[TL取得開始]"
+            listener = StreamListener()
+            stream = tweepy.Stream(auth,listener)
+            #stream.timeout = None
             stream.userstream()
 
         except KeyboardInterrupt:
@@ -153,6 +166,4 @@ if __name__ == '__main__':
             exit()
 
         except:
-            print "[再接続]"
-            stream = tweepy.Stream(auth, listener)
-            stream.timeout = None
+            pass
